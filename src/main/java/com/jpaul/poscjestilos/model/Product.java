@@ -26,19 +26,19 @@ public class Product {
     private String size;
 
     @Column(nullable = false)
-    private BigDecimal SalePrice;
+    private BigDecimal salePrice;
 
     @Column(nullable = false)
-    private BigDecimal BuyDecimal;
+    private BigDecimal buyPrice;
 
     @Column(nullable = false)
     private char genre;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "brand_id")
     private Brand brand;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
 

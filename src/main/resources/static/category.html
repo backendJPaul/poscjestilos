@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>module - category</title>
+
+  <link rel="stylesheet"
+    href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+
+</head>
+
+<body>
+  <div>
+    <a id="addA">
+      Agregar
+      <span id="moduleSpan"></span>
+      <span class="material-symbols-outlined">add</span>
+    </a>
+  </div>
+
+  <a href="#" onclick="history.back()">
+    Regresar
+      <span class="material-symbols-outlined">arrow_back</span>
+  </a>
+  <fieldset>
+    <legend>Buscar</legend>
+    <input type="text" id="patternText" onkeyup="loadModuleJSON()" />
+    <input type="submit" id="submitButton" />
+    <table id="dataTable" width="100%"></table>
+  </fieldset>
+  <script type="text/javascript">
+
+    /* catching url*/
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const filter = Boolean(urlSearchParams.get("filter"));
+
+    /* const */
+    const server = "http://localhost:8080/";
+    const endpoint = "category";
+    const module = `${endpoint}.html`;
+    const moduleEdit = `${endpoint}e.html`;
+
+    let moduleJSON = null;
+
+    /* init */
+    init();
+    function init() {
+      loadModuleJSON();
+      document.getElementById("addA").href = `${moduleEdit}?action=save`;
+    }
+
+
+    /* load assets */
+    async function loadModuleJSON() {
+      try {
+        const response = await fetch(`${server}api/${endpoint}`);
+        moduleJSON = await response.json();
+        document.addEventListener("DOMContentLoaded", moduleDOMContentLoaded(moduleJSON));
+      }
+      catch (error) {
+        console.log(error);
+      }
+    }
+
+    function moduleDOMContentLoaded(data) {
+      fillDataTable(data);
+    }
+
+
+
+    /*fillFields*/
+    function fillDataTable(moduleJSON) {
+      document.getElementById("dataTable").innerHTML = "";
+
+      for (let i in moduleJSON) {
+
+        if (JSON.stringify(moduleJSON[i].name).includes(document.getElementById("patternText").value) || document.getElementById("patternText").value == " ") {
+          const row = document.createElement("tr");
+
+          const colId = document.createElement("td");
+          colId.textContent = moduleJSON[i].id;
+
+          const colIcon = document.createElement("td");
+          const iconSpan = document.createElement("span");
+          iconSpan.classList.add("material-symbols-outlined");
+          iconSpan.textContent = "category";
+          colIcon.appendChild(iconSpan);
+
+
+          const colName = document.createElement("td");
+          colName.textContent = moduleJSON[i].name;
+
+
+          const colUpdate = document.createElement("td");
+          const updateSpan = document.createElement("span");
+          updateSpan.classList.add("material-symbols-outlined");
+          updateSpan.textContent = "update";
+
+
+          const updateA = document.createElement("a");
+          updateA.setAttribute("href", `${moduleEdit}?id=${moduleJSON[i].id}&action=update`);
+          updateA.appendChild(updateSpan);
+
+          colUpdate.appendChild(updateA);
+
+          const colDelete = document.createElement("td");
+          const deleteSpan = document.createElement("span");
+          deleteSpan.classList.add("material-symbols-outlined");
+          deleteSpan.style = "cursor:pointer";
+          deleteSpan.textContent = "delete";
+          deleteSpan.id = moduleJSON[i].id;
+
+          deleteSpan.addEventListener("click", function (event) {
+            deleteItem(deleteSpan.id);
+          }, false);
+
+          colDelete.appendChild(deleteSpan);
+
+          row.appendChild(colId);
+          row.appendChild(colIcon);
+          row.appendChild(colName);
+          row.appendChild(colUpdate);
+          row.appendChild(colDelete);
+
+          dataTable.appendChild(row);
+        }
+      }
+
+      async function deleteItem(idDeleteSpan) {
+        try {
+          const response = await fetch(`${server}api/${endpoint}/${idDeleteSpan}`, {
+            method: 'DELETE'
+          });
+          console.log(response);
+        }
+        catch (error) {
+          console.log(error);
+        }
+        document.location.href = module;
+      }
+
+
+
+    }
+
+  </script>
+</body>
+
+</html>

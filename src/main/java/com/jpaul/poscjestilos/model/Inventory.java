@@ -21,13 +21,8 @@ public class Inventory {
 
     @Column(nullable = false)
     LocalTime dateUpdate = LocalTime.now();
-    /*
-    @Column(nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date dateUpdate;
 
-    */
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
 

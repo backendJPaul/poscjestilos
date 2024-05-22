@@ -1,8 +1,7 @@
 package com.jpaul.poscjestilos.model;
-
 import jakarta.persistence.*;
 import lombok.Data;
-
+import java.math.BigDecimal;
 import java.time.LocalTime;
 
 @Entity
@@ -17,14 +16,22 @@ public class Sale {
     private int id;
 
     @Column(nullable = false)
+    private int identifier;
+
+    @Column(nullable = false)
     LocalTime dateUpdate = LocalTime.now();
 
-    @OneToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @Column(nullable = false)
+    private BigDecimal discount;
 
-    @OneToOne
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
+    @ManyToOne
+    @JoinColumn(name = "product_id")
+    private Product product;
 }
