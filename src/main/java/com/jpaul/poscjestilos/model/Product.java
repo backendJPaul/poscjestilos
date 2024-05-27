@@ -16,7 +16,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(nullable = false)
+
+    //TODO make name unique
+
+    @Column(nullable = false, unique = true)
     private String name;
 
     @Column(nullable = false)

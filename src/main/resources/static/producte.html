@@ -9,14 +9,15 @@
 
 <body>
     <a href="#" onclick="history.back()">Regresar</a>
+   
     <fieldset>
         <legend id="titleLegend"></legend>
-        <input type="text" id="nameField" placeholder="nombre" />
+        <input type="text" id="nameField" placeholder="CATEGORY|CODPRICE|UNIQUECODE" size="31" />
         <input type="text" id="colorField" placeholder="color" />
         <input type="text" id="sizeField" placeholder="talla" />
         <input type="text" id="salePriceField" placeholder="precio de venta" />
         <input type="text" id="buyPriceField" placeholder="precio de compra" />
-        <input type="text" id="genreField" placeholder="Genero" />
+        <input type="text" id="genreField" placeholder="NG|F|M|FK|MK|FB|MB" />
         <select id="categorySelect"></select>
         <select id="brandSelect"></select>
         
@@ -52,6 +53,7 @@
             document.addEventListener("DOMContentLoaded", function() {
                 brandLoadJSON();
                 categoryLoadJSON();
+       
             });
             switch (action) {
                 case "null":
@@ -75,6 +77,15 @@
                 moduleJSON = await response.json();
 
                 document.getElementById("nameField").value = moduleJSON.name;
+                document.getElementById("colorField").value = moduleJSON.color;
+                document.getElementById("sizeField").value = moduleJSON.size;
+                document.getElementById("salePriceField").value = moduleJSON.salePrice;
+                document.getElementById("buyPriceField").value = moduleJSON.buyPrice;
+                document.getElementById("genreField").value = moduleJSON.genre;
+                
+                document.getElementById("categorySelect").options[moduleJSON.category.id].selected = true;
+                document.getElementById("brandSelect").options[moduleJSON.brand.id].selected = true;
+            
             }
             catch (error) {
                 console.log(error);
@@ -128,6 +139,8 @@
                 categorySelect.appendChild(option);
             } 
         }
+        
+    
         
 
         /*send button*/
@@ -186,7 +199,7 @@
                         console.log(error);
                     }
                 }
-                //window.location.href = module;
+                window.location.href = module;
             }
         }
     </script>

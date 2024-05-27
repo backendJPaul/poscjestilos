@@ -86,6 +86,14 @@
           const colId = document.createElement("td");
           colId.textContent = moduleJSON[i].id;
 
+
+          const colImage = document.createElement("td");
+          const image = document.createElement("img");
+          image.src = "images/" + moduleJSON[i].name + ".png";
+          image.width = 50;
+          image.height = 50;
+          colImage.appendChild(image);
+
           const colIcon = document.createElement("td");
           const iconSpan = document.createElement("span");
           iconSpan.classList.add("material-symbols-outlined");
@@ -147,7 +155,9 @@
           colDelete.appendChild(deleteSpan);
 
           row.appendChild(colId);
+
           row.appendChild(colIcon);
+          row.appendChild(colImage);
           row.appendChild(colName);
           row.appendChild(colColor);
           row.appendChild(colSize);
