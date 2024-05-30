@@ -40,7 +40,7 @@
 
     /* const */
     const server = "http://localhost:8080/";
-    const endpoint = "product";
+    const endpoint = "color";
     const module = `${endpoint}.html`;
     const moduleEdit = `${endpoint}e.html`;
 
@@ -59,7 +59,6 @@
       try {
         const response = await fetch(`${server}api/${endpoint}`);
         moduleJSON = await response.json();
-        console.log(moduleJSON);
         document.addEventListener("DOMContentLoaded", moduleDOMContentLoaded(moduleJSON));
       }
       catch (error) {
@@ -77,102 +76,24 @@
     function fillDataTable(moduleJSON) {
       document.getElementById("dataTable").innerHTML = "";
 
-          const rowHeader = document.createElement("tr");
-          
-          const colIdHeader = document.createElement("td");
-          colIdHeader.textContent = "id";
-          const colIconHeader = document.createElement("td");
-          colIconHeader.textContent = "icono";
-          const colPhotoHeader = document.createElement("td");
-          colPhotoHeader.textContent = "imagen"; 
-          const colNameHeader = document.createElement("td");
-          colNameHeader.textContent = "nombre";
-          const colSizeHeader = document.createElement("td");
-          colSizeHeader.textContent = "talla";
-          const colSalePriceHeader = document.createElement("td");
-          colSalePriceHeader.textContent = "precio de venta";
-          const colBuyPriceHeader = document.createElement("td");
-          colBuyPriceHeader.textContent = "precio de compra";
-          const colGenderHeader = document.createElement("td");
-          colGenderHeader.textContent = "género";
-          const colColorHeader = document.createElement("td");
-          colColorHeader.textContent = "color";
-          const colBrandHeader = document.createElement("td");
-          colBrandHeader.textContent = "marca";
-          const colCategoryHeader = document.createElement("td");
-          colCategoryHeader.textContent = "categoría";
-          const colUpdateHeader = document.createElement("td");
-          colUpdateHeader.textContent = "actualizar";
-          const colDeleteHeader = document.createElement("td");
-          colDeleteHeader.textContent = "eliminar";
-          
-          rowHeader.appendChild(colIdHeader);
-          rowHeader.appendChild(colIconHeader);
-          rowHeader.appendChild(colPhotoHeader);
-          rowHeader.appendChild(colNameHeader);
-          rowHeader.appendChild(colSizeHeader);
-          rowHeader.appendChild(colSalePriceHeader);
-          rowHeader.appendChild(colBuyPriceHeader);
-          rowHeader.appendChild(colGenderHeader);
-          rowHeader.appendChild(colColorHeader);
-          rowHeader.appendChild(colBrandHeader);
-          rowHeader.appendChild(colCategoryHeader);
-          rowHeader.appendChild(colUpdateHeader);
-          rowHeader.appendChild(colDeleteHeader);
-
-          dataTable.appendChild(rowHeader);
-          
       for (let i in moduleJSON) {
 
         if (JSON.stringify(moduleJSON[i].name).includes(document.getElementById("patternText").value) || document.getElementById("patternText").value == " ") {
-
-          
-          
           const row = document.createElement("tr");
 
           const colId = document.createElement("td");
           colId.textContent = moduleJSON[i].id;
 
-
           const colIcon = document.createElement("td");
           const iconSpan = document.createElement("span");
           iconSpan.classList.add("material-symbols-outlined");
-          iconSpan.textContent = "shoppingmode";
+          iconSpan.textContent = "invert_colors";
           colIcon.appendChild(iconSpan);
 
-          const colImage = document.createElement("td");
-          const image = document.createElement("img");
-          image.src = "images/" + moduleJSON[i].name + ".png";
-          image.width = 50;
-          image.height = 50;
-          colImage.appendChild(image);
+
           const colName = document.createElement("td");
           colName.textContent = moduleJSON[i].name;
 
-
-          const colSize = document.createElement("td");
-          colSize.textContent = moduleJSON[i].size;
-
-          const colSalePrice = document.createElement("td");
-          colSalePrice.textContent = moduleJSON[i].salePrice;
-
-          
-          const colBuyPrice = document.createElement("td");
-          colBuyPrice.textContent = moduleJSON[i].buyPrice;
-
-          
-          const colGenre = document.createElement("td");
-          colGenre.textContent = moduleJSON[i].genre;
-
-          const colColor = document.createElement("td");
-          colColor.textContent = moduleJSON[i].color.name;
-          
-          const colBrand = document.createElement("td");
-          colBrand.textContent = moduleJSON[i].brand.name;
-
-          const colCategory = document.createElement("td");
-          colCategory.textContent = moduleJSON[i].category.name;
-          
 
           const colUpdate = document.createElement("td");
           const updateSpan = document.createElement("span");
@@ -200,20 +121,9 @@
           colDelete.appendChild(deleteSpan);
 
           row.appendChild(colId);
-
           row.appendChild(colIcon);
-          row.appendChild(colImage);
           row.appendChild(colName);
-          row.appendChild(colSize);
-          row.appendChild(colSalePrice);
-          row.appendChild(colBuyPrice);
-          row.appendChild(colGenre);
-          row.appendChild(colColor);
-          row.appendChild(colBrand);
-          row.appendChild(colCategory);
-          
           row.appendChild(colUpdate);
-          
           row.appendChild(colDelete);
 
           dataTable.appendChild(row);

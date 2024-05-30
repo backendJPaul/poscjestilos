@@ -76,6 +76,60 @@
     function fillDataTable(moduleJSON) {
       document.getElementById("dataTable").innerHTML = "";
 
+
+          const rowHeader = document.createElement("tr");
+          
+          const colIdHeader = document.createElement("td");
+          colIdHeader.textContent = "id";
+          const colQuantityHeader = document.createElement("td");
+          colQuantityHeader.textContent = "cantidad";
+          const colPhotoHeader = document.createElement("td");
+          colPhotoHeader.textContent = "imagen"; 
+
+          const colDateUpdateHeader = document.createElement("td");
+          colDateUpdateHeader.textContent = "Fecha de Actualizacion"; 
+          
+          const colNameHeader = document.createElement("td");
+          colNameHeader.textContent = "nombre";
+          const colSizeHeader = document.createElement("td");
+          colSizeHeader.textContent = "talla";
+          const colSalePriceHeader = document.createElement("td");
+          colSalePriceHeader.textContent = "precio de venta";
+          const colBuyPriceHeader = document.createElement("td");
+          colBuyPriceHeader.textContent = "precio de compra";
+          const colGenderHeader = document.createElement("td");
+          colGenderHeader.textContent = "género";
+          const colColorHeader = document.createElement("td");
+          colColorHeader.textContent = "color";
+          const colBrandHeader = document.createElement("td");
+          colBrandHeader.textContent = "marca";
+          const colCategoryHeader = document.createElement("td");
+          colCategoryHeader.textContent = "categoría";
+          const colUpdateHeader = document.createElement("td");
+          colUpdateHeader.textContent = "actualizar";
+          const colDeleteHeader = document.createElement("td");
+          colDeleteHeader.textContent = "eliminar";
+          
+          rowHeader.appendChild(colIdHeader);
+          rowHeader.appendChild(colQuantityHeader);
+          rowHeader.appendChild(colPhotoHeader);
+          rowHeader.appendChild(colDateUpdateHeader);
+          rowHeader.appendChild(colNameHeader);
+          rowHeader.appendChild(colSizeHeader);
+          rowHeader.appendChild(colSalePriceHeader);
+          rowHeader.appendChild(colBuyPriceHeader);
+          rowHeader.appendChild(colGenderHeader);
+          rowHeader.appendChild(colColorHeader);
+          rowHeader.appendChild(colBrandHeader);
+          rowHeader.appendChild(colCategoryHeader);
+          rowHeader.appendChild(colUpdateHeader);
+          rowHeader.appendChild(colDeleteHeader);
+
+          dataTable.appendChild(rowHeader);
+          
+
+
+
       for (let i in moduleJSON) {
 
         if (JSON.stringify(moduleJSON[i].product.name).includes(document.getElementById("patternText").value) || document.getElementById("patternText").value == " ") {
@@ -92,7 +146,16 @@
 
           const colBeginningAvailableQuantity = document.createElement("td");
           colBeginningAvailableQuantity.textContent = moduleJSON[i].beginningAvailableQuantity;
-         
+
+          const colImage = document.createElement("td");
+          const image = document.createElement("img");
+          image.src = "images/" + moduleJSON[i].name + ".png";
+          image.width = 50;
+          image.height = 50;
+          colImage.appendChild(image);
+          
+          const colName = document.createElement("td");
+          colName.textContent = moduleJSON[i].name;
           const colDateUpdate = document.createElement("td");
           colDateUpdate.textContent = moduleJSON[i].dateUpdate;
           
@@ -110,6 +173,9 @@
           
           const colProductGenre = document.createElement("td");
           colProductGenre.textContent = moduleJSON[i].product.genre;
+
+          const colProductColor = document.createElement("td");
+          colProductColor.textContent = moduleJSON[i].product.color.name;
 
           const colProductBrand = document.createElement("td");
           colProductBrand.textContent = moduleJSON[i].product.brand.name;
@@ -145,12 +211,14 @@
 
           row.appendChild(colId);          
           row.appendChild(colBeginningAvailableQuantity);
+          row.appendChild(colImage);
           row.appendChild(colDateUpdate);
           row.appendChild(colProductName);
           row.appendChild(colProductSize);
           row.appendChild(colProductSalePrice);
           row.appendChild(colProductBuyPrice);
           row.appendChild(colProductGenre);
+          row.appendChild(colProductColor);
           row.appendChild(colProductBrand);
           row.appendChild(colProductCategory);
 

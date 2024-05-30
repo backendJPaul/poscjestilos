@@ -13,11 +13,12 @@
     <fieldset>
         <legend id="titleLegend"></legend>
         <input type="text" id="nameField" placeholder="CATEGORY|CODPRICE|UNIQUECODE" size="31" />
-        <input type="text" id="colorField" placeholder="color" />
         <input type="text" id="sizeField" placeholder="talla" />
         <input type="text" id="salePriceField" placeholder="precio de venta" />
         <input type="text" id="buyPriceField" placeholder="precio de compra" />
         <input type="text" id="genreField" placeholder="NG|F|M|FK|MK|FB|MB" />
+        
+        <select id="colorSelect"></select>
         <select id="categorySelect"></select>
         <select id="brandSelect"></select>
         
@@ -51,6 +52,7 @@
             document.getElementById("submitButton").addEventListener("click", submitButtonClick);
             
             document.addEventListener("DOMContentLoaded", function() {
+                colorLoadJSON();
                 brandLoadJSON();
                 categoryLoadJSON();
        
@@ -77,12 +79,12 @@
                 moduleJSON = await response.json();
 
                 document.getElementById("nameField").value = moduleJSON.name;
-                document.getElementById("colorField").value = moduleJSON.color;
                 document.getElementById("sizeField").value = moduleJSON.size;
                 document.getElementById("salePriceField").value = moduleJSON.salePrice;
                 document.getElementById("buyPriceField").value = moduleJSON.buyPrice;
                 document.getElementById("genreField").value = moduleJSON.genre;
                 
+                document.getElementById("colorSelect").options[moduleJSON.color.id].selected = true;
                 document.getElementById("categorySelect").options[moduleJSON.category.id].selected = true;
                 document.getElementById("brandSelect").options[moduleJSON.brand.id].selected = true;
             
@@ -90,6 +92,30 @@
             catch (error) {
                 console.log(error);
             }
+        }
+
+        async function colorLoadJSON() {
+            try {
+                const response = await fetch(`${server}api/color`);
+                const data = await response.json();
+                colorJSON = data;
+                document.addEventListener("DOMContentLoaded", colorContentLoaded(data));
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        function colorContentLoaded(){
+            let option = document.createElement("option");
+            option.text = "Seleccione un color";
+            colorSelect.appendChild(option);
+
+            for (let i in colorJSON) {
+                option = null;
+                option = document.createElement("option");
+                option.text = colorJSON[i].name;
+                colorSelect.appendChild(option);
+            } 
         }
 
         async function brandLoadJSON() {
@@ -153,11 +179,15 @@
                 data = {
                     "id": `${idUrlParams}`,
                     "name": `${document.getElementById("nameField").value}`,
-                    "color": `${document.getElementById("colorField").value}`,
                     "size": `${document.getElementById("sizeField").value}`,
                     "salePrice": `${document.getElementById("salePriceField").value}`,
                     "buyPrice": `${document.getElementById("buyPriceField").value}`,
                     "genre": `${document.getElementById("genreField").value}`,
+                    
+                    
+                    "color": {
+                        "id" : `${document.getElementById("colorSelect").selectedIndex}`
+                    },
                     "brand": {
                         "id" : `${document.getElementById("brandSelect").selectedIndex}`
                     },

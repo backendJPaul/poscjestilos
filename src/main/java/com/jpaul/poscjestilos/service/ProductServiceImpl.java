@@ -53,11 +53,11 @@ public class ProductServiceImpl implements IProductService{
         if(productOptional.isPresent()){
             Product product = productOptional.get();
             product.setName(_product.getName());
-            product.setColor(_product.getColor());
             product.setSize(_product.getSize());
             product.setSalePrice(_product.getSalePrice());
             product.setBuyPrice(_product.getBuyPrice());
             product.setGenre(_product.getGenre());
+            product.setColor(_product.getColor());
             product.setBrand(_product.getBrand());
             product.setCategory(_product.getCategory());
 

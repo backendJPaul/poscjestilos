@@ -19,11 +19,8 @@ public class Product {
 
     //TODO make name unique
 
-    @Column(nullable = false, unique = true)
-    private String name;
-
     @Column(nullable = false)
-    private String color;
+    private String name;
 
     @Column(nullable = false)
     private String size;
@@ -36,6 +33,10 @@ public class Product {
 
     @Column(nullable = false)
     private char genre;
+
+    @ManyToOne
+    @JoinColumn(name = "color_id")
+    private Color color;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
