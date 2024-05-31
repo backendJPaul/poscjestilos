@@ -7,8 +7,8 @@ import java.math.BigDecimal;
 
 @Entity
 @Data
-@Table(name = "itemCart")
-public class ItemCart {
+@Table(name = "cart_item")
+public class CartItem {
 
     private static final long serialVersion = 1L;
 
@@ -25,6 +25,5 @@ public class ItemCart {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
-
 
 }
