@@ -44,6 +44,7 @@
                     break;
                 case "update":
                     document.addEventListener("DOMContentLoaded", function () {
+                        productLoadJSON();
                         loadModuleByIdJSON();
                     });
             }
@@ -51,17 +52,35 @@
 
         }
         /*load assets*/
-        async function loadProduct(){
-            try{
-                const response = await fetch(`${server}api/${endpoint}/product`);
-                moduleProductJSON = await response.json();
 
-                document.getElementById("productSelect")
+        async function productLoadJSON() {
+            try {
+                const response = await fetch(`${server}api/color`);
+                const data = await response.json();
+                productJSON = data;
+                document.addEventListener("DOMContentLoaded", productContentLoaded(data));
             }
-            catch(error){
+            catch (error) {
                 console.log(error);
             }
         }
+        function productContentLoaded(){
+            let option = document.createElement("option");
+            option.text = "Seleccione un producto";
+            productSelect.appendChild(option);
+
+            for (let i in productJSON) {
+                option = null;
+                option = document.createElement("option");
+                option.text = productJSON[i].name;
+                productSelect.appendChild(option);
+            } 
+        }
+
+        
+
+        
+
 
         async function loadModuleByIdJSON() {
             try {
