@@ -2,12 +2,17 @@ package com.jpaul.poscjestilos.controller;
 
 import com.jpaul.poscjestilos.model.CartItem;
 import com.jpaul.poscjestilos.service.ICartItemService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+@CrossOrigin(origins = "http://127.0.0.1:5500")
+@RestController
+@AllArgsConstructor
+@RequestMapping("api/cartitem")
 public class CartItemController{
 
     private ICartItemService iCartItemService;

@@ -3,10 +3,14 @@ package com.jpaul.poscjestilos.service;
 import com.jpaul.poscjestilos.exception.ResourceNotFoundException;
 import com.jpaul.poscjestilos.model.CartItem;
 import com.jpaul.poscjestilos.repository.ICartItemRepository;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
 
+@Service
+@AllArgsConstructor
 public class CartItemServiceImpl implements ICartItemService{
 
     private ICartItemRepository iCartItemRepository;
