@@ -35,7 +35,7 @@
         init();
         function init() {
             document.getElementById("submitButton").addEventListener("click", submitButtonClick);
-
+            productLoadJSON();
             switch (action) {
                 case "null":
                     window.location.href = module;
@@ -44,7 +44,6 @@
                     break;
                 case "update":
                     document.addEventListener("DOMContentLoaded", function () {
-                        productLoadJSON();
                         loadModuleByIdJSON();
                     });
             }
@@ -55,7 +54,7 @@
 
         async function productLoadJSON() {
             try {
-                const response = await fetch(`${server}api/color`);
+                const response = await fetch(`${server}api/product`);
                 const data = await response.json();
                 productJSON = data;
                 document.addEventListener("DOMContentLoaded", productContentLoaded(data));
@@ -97,16 +96,18 @@
 
         /*send button*/
         async function submitButtonClick() {
-            if (document.getElementById("beginningAvailableQuantityField").value == "") {
+            if (document.getElementById("quantityField").value == "") {
                 window.alert("Ingrese todos los campos");
             }
             else {
 
                 data = {
+
                     "id": `${idUrlParams}`,
-                    "beginningAvailableQuantity": `${document.getElementById("beginningAvailableQuantityField").value}`,
+                    "discount": `${document.getElementById("discountField").value}`,
+                    "quantity": `${document.getElementById("quantityField").value}`,
                     "product": { 
-                        "id" : `${document.getElementById("productIdField").value}`
+                        "id" : `${document.getElementById("productSelect").selectedIndex}`
                     }
                 }
                 if (action == "save") {
