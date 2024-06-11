@@ -51,7 +51,7 @@
 
         }
         /*load assets*/
-
+        let productJSON;
         async function productLoadJSON() {
             try {
                 const response = await fetch(`${server}api/product`);
@@ -86,8 +86,11 @@
                 const response = await fetch(`${server}api/${endpoint}/${idUrlParams}`);
                 moduleJSON = await response.json();
 
-                document.getElementById("beginningAvailableQuantityField").value = moduleJSON.beginningAvailableQuantity;
-                document.getElementById("productIdField").value = moduleJSON.product.id;
+                console.log(moduleJSON);
+                document.getElementById("discountField").value = moduleJSON.discount;
+                document.getElementById("quantityField").value = moduleJSON.quantity;
+                console.log(moduleJSON.product.id);
+                document.getElementById("productSelect").options[moduleJSON.product.id].selected = true;
             }
             catch (error) {
                 console.log(error);
@@ -100,15 +103,23 @@
                 window.alert("Ingrese todos los campos");
             }
             else {
-
+            console.log(productJSON[0].salePrice);
+            console.log(document.getElementById("productSelect").selectedIndex);
+            
+                //console.log(productJSON[document.getElementById("productSelect").selectedIndex].salePrice);
                 data = {
 
                     "id": `${idUrlParams}`,
                     "discount": `${document.getElementById("discountField").value}`,
                     "quantity": `${document.getElementById("quantityField").value}`,
+                    "cart" : {
+                        "id" : 1
+                    },
+                    "total": `${(productJSON[document.getElementById("productSelect").selectedIndex - 1].salePrice * document.getElementById("quantityField").value) - (document.getElementById("discountField").value)}`,
                     "product": { 
                         "id" : `${document.getElementById("productSelect").selectedIndex}`
                     }
+
                 }
                 if (action == "save") {
                     delete data.id;

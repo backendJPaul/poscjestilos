@@ -91,6 +91,8 @@
           colDiscountHeader.textContent = "descuento";
           const colQuantityHeader = document.createElement("td");
           colQuantityHeader.textContent = "cantidad";
+          const colTotalHeader = document.createElement("td");
+          colTotalHeader.textContent = "total";
           const colUpdateHeader = document.createElement("td");
           colUpdateHeader.textContent = "actualizar";
           const colDeleteHeader = document.createElement("td");
@@ -102,6 +104,7 @@
           rowHeader.appendChild(colSalePriceHeader);
           rowHeader.appendChild(colDiscountHeader);
           rowHeader.appendChild(colQuantityHeader);
+          rowHeader.appendChild(colTotalHeader);
           rowHeader.appendChild(colUpdateHeader);
           rowHeader.appendChild(colDeleteHeader);
 
@@ -141,6 +144,9 @@
           const colQuantity = document.createElement("td");
           colQuantity.textContent = moduleJSON[i].quantity;
 
+          const colTotal = document.createElement("td");
+          colTotal.textContent = moduleJSON[i].total;;
+          
           const colUpdate = document.createElement("td");
           const updateSpan = document.createElement("span");
           updateSpan.classList.add("material-symbols-outlined");
@@ -172,6 +178,7 @@
           row.appendChild(colProductSalePrice);
           row.appendChild(colDiscount);
           row.appendChild(colQuantity);
+          row.appendChild(colTotal);
           row.appendChild(colUpdate);
           row.appendChild(colDelete);
 

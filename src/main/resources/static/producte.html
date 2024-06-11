@@ -12,7 +12,7 @@
    
     <fieldset>
         <legend id="titleLegend"></legend>
-        <input type="text" id="nameField" placeholder="CATEGORY|CODPRICE|UNIQUECODE" size="31" />
+        <input type="text" id="nameField" placeholder="CATEGORY|SIZE|COLOR" size="31" disabled="disabled" />
         <input type="text" id="sizeField" placeholder="talla" />
         <input type="text" id="salePriceField" placeholder="precio de venta" />
         <input type="text" id="buyPriceField" placeholder="precio de compra" />
@@ -93,7 +93,7 @@
                 console.log(error);
             }
         }
-
+        let colorJSON;
         async function colorLoadJSON() {
             try {
                 const response = await fetch(`${server}api/color`);
@@ -117,12 +117,12 @@
                 colorSelect.appendChild(option);
             } 
         }
-
+        let brandJSON;
         async function brandLoadJSON() {
             try {
                 const response = await fetch(`${server}api/brand`);
                 const data = await response.json();
-                categoryJSON = data;
+                brandJSON = data;
                 document.addEventListener("DOMContentLoaded", brandContentLoaded(data));
             }
             catch (error) {
@@ -134,14 +134,14 @@
             option.text = "Seleccione una marca";
             brandSelect.appendChild(option);
 
-            for (let i in categoryJSON) {
+            for (let i in brandJSON) {
                 option = null;
                 option = document.createElement("option");
-                option.text = categoryJSON[i].name;
+                option.text = brandJSON[i].name;
                 brandSelect.appendChild(option);
             } 
         }
-
+        let categoryJSON;
         async function categoryLoadJSON() {
             try {
                 const response = await fetch(`${server}api/category`);
@@ -171,14 +171,14 @@
 
         /*send button*/
         async function submitButtonClick() {
-            if (document.getElementById("nameField").value == "") {
+            if (document.getElementById("sizeField").value == "") {
                 window.alert("Ingrese todos los campos");
             }
             else {
 
                 data = {
                     "id": `${idUrlParams}`,
-                    "name": `${document.getElementById("nameField").value}`,
+                    "name": `${document.getElementById("categorySelect").value.toUpperCase() + "COD0" + document.getElementById("colorSelect").value.toUpperCase() +  document.getElementById("sizeField").value.toUpperCase() + Date.now().toString(16).toUpperCase()}`,
                     "size": `${document.getElementById("sizeField").value}`,
                     "salePrice": `${document.getElementById("salePriceField").value}`,
                     "buyPrice": `${document.getElementById("buyPriceField").value}`,

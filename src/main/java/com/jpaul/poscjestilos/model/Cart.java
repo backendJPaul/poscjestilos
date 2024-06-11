@@ -3,6 +3,7 @@ package com.jpaul.poscjestilos.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Entity
@@ -15,9 +16,11 @@ public class Cart {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @OneToMany
-    @JoinColumn(name = "cart_item_id")
-    private List<CartItem> cartItemList;
+    @Column(nullable = false)
+    private BigDecimal discount;
+
+    @Column(nullable = false)
+    private BigDecimal total;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
