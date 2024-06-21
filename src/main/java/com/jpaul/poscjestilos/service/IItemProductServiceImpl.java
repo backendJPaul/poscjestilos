@@ -54,6 +54,12 @@ public class IItemProductServiceImpl implements IItemProductService {
 
     @Override
     public void delete(Integer _id) {
-        Optional
+        Optional<ItemProduct> itemProductOptional = iItemProductRepository.findById(_id);
+        if(itemProductOptional.isPresent()){
+            iItemProductRepository.delete(itemProductOptional.get());
+        }
+        else{
+            throw new ResourceNotFoundException(ResourceNotFoundException.RESOURCE_NOT_FOUND_BY_ID);
+        }
     }
 }
