@@ -42,7 +42,7 @@ public class InventoryServiceImpl implements IInventoryService{
         if(inventoryOptional.isPresent()){
             Inventory inventory = inventoryOptional.get();
             inventory.setBeginningAvailableQuantity(_inventory.getBeginningAvailableQuantity());
-            inventory.setProduct(_inventory.getProduct());
+            inventory.setItemProduct(_inventory.getItemProduct());
 
             return iInventoryRepository.save(inventory);
         }

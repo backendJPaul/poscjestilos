@@ -28,7 +28,11 @@ public class ItemProduct {
     @Column(nullable = false)
     private BigDecimal buyPrice;
 
-    @Column(nullable = false)
     @ManyToOne
+    @JoinColumn(name = "color_id")
+    private Color color;
+
+    @ManyToOne
+    @JoinColumn(name = "product_id")
     private Product product;
 }

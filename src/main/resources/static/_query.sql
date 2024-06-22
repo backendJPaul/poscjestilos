@@ -86,5 +86,5 @@ create trigger refresh_stock
 begin
     update inventory
     set beginning_available_quantity = beginning_available_quantity - NEW.quantity
-    where product_id = NEW.product_id;
+    where item_product_id = NEW.item_product_id;
 end //

@@ -1,7 +1,9 @@
 package com.jpaul.poscjestilos.service;
 
 import com.jpaul.poscjestilos.exception.ResourceNotFoundException;
+import com.jpaul.poscjestilos.model.Inventory;
 import com.jpaul.poscjestilos.model.ItemProduct;
+import com.jpaul.poscjestilos.repository.IInventoryRepository;
 import com.jpaul.poscjestilos.repository.IItemProductRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,6 +16,7 @@ import java.util.Optional;
 public class IItemProductServiceImpl implements IItemProductService {
 
     private IItemProductRepository iItemProductRepository;
+    private IInventoryRepository iInventoryRepository;
     @Override
     public List<ItemProduct> findAll() {
         return iItemProductRepository.findAll();
@@ -32,7 +35,14 @@ public class IItemProductServiceImpl implements IItemProductService {
 
     @Override
     public ItemProduct save(ItemProduct _itemProduct) {
-        return iItemProductRepository.save(_itemProduct);
+        ItemProduct itemProduct = iItemProductRepository.save(_itemProduct);
+
+        Inventory inventory = new Inventory();
+        inventory.setItemProduct(itemProduct);
+        inventory.setBeginningAvailableQuantity(0);
+
+        iInventoryRepository.save(inventory);
+        return itemProduct;
     }
 
     @Override

@@ -37,11 +37,6 @@ public class ProductServiceImpl implements IProductService{
     @Override
     public Product save(Product _product) {
         Product product = iProductRepository.save(_product);
-        Inventory inventory = new Inventory();
-        inventory.setProduct(product);
-        inventory.setBeginningAvailableQuantity(0);
-
-        iInventoryRepository.save(inventory);
 
         return product;
 
@@ -53,11 +48,7 @@ public class ProductServiceImpl implements IProductService{
         if(productOptional.isPresent()){
             Product product = productOptional.get();
             product.setName(_product.getName());
-            product.setSize(_product.getSize());
-            product.setSalePrice(_product.getSalePrice());
-            product.setBuyPrice(_product.getBuyPrice());
             product.setGenre(_product.getGenre());
-            product.setColor(_product.getColor());
             product.setBrand(_product.getBrand());
             product.setCategory(_product.getCategory());
 

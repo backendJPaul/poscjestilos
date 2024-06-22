@@ -23,8 +23,8 @@ public class Inventory {
     LocalTime dateUpdate = LocalTime.now();
 
     @ManyToOne
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @JoinColumn(name = "item_product_id")
+    private ItemProduct itemProduct;
 
 
 
