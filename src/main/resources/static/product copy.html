@@ -87,21 +87,22 @@
           colPhotoHeader.textContent = "imagen"; 
           const colNameHeader = document.createElement("td");
           colNameHeader.textContent = "nombre";
+          const colSizeHeader = document.createElement("td");
+          colSizeHeader.textContent = "talla";
+          const colSalePriceHeader = document.createElement("td");
+          colSalePriceHeader.textContent = "precio de venta";
+          const colBuyPriceHeader = document.createElement("td");
+          colBuyPriceHeader.textContent = "precio de compra";
+          const colGenderHeader = document.createElement("td");
+          colGenderHeader.textContent = "género";
+          const colColorHeader = document.createElement("td");
+          colColorHeader.textContent = "color";
           const colBrandHeader = document.createElement("td");
           colBrandHeader.textContent = "marca";
-          
           const colCategoryHeader = document.createElement("td");
           colCategoryHeader.textContent = "categoría";
-          
-          const colGenreHeader = document.createElement("td");
-          colGenreHeader.textContent = "genero";
-          
-          const colItemProductHeader = document.createElement("td");
-          colItemProductHeader.textContent = "agregar variante";
-
           const colUpdateHeader = document.createElement("td");
           colUpdateHeader.textContent = "actualizar";
-          
           const colDeleteHeader = document.createElement("td");
           colDeleteHeader.textContent = "eliminar";
           
@@ -109,10 +110,13 @@
           rowHeader.appendChild(colIconHeader);
           rowHeader.appendChild(colPhotoHeader);
           rowHeader.appendChild(colNameHeader);
+          rowHeader.appendChild(colSizeHeader);
+          rowHeader.appendChild(colSalePriceHeader);
+          rowHeader.appendChild(colBuyPriceHeader);
+          rowHeader.appendChild(colGenderHeader);
+          rowHeader.appendChild(colColorHeader);
           rowHeader.appendChild(colBrandHeader);
           rowHeader.appendChild(colCategoryHeader);
-          rowHeader.appendChild(colGenreHeader);
-          rowHeader.appendChild(colItemProductHeader);
           rowHeader.appendChild(colUpdateHeader);
           rowHeader.appendChild(colDeleteHeader);
 
@@ -145,8 +149,23 @@
           const colName = document.createElement("td");
           colName.textContent = moduleJSON[i].name;
 
+
+          const colSize = document.createElement("td");
+          colSize.textContent = moduleJSON[i].size;
+
+          const colSalePrice = document.createElement("td");
+          colSalePrice.textContent = moduleJSON[i].salePrice;
+
+          
+          const colBuyPrice = document.createElement("td");
+          colBuyPrice.textContent = moduleJSON[i].buyPrice;
+
+          
           const colGenre = document.createElement("td");
           colGenre.textContent = moduleJSON[i].genre;
+
+          const colColor = document.createElement("td");
+          colColor.textContent = moduleJSON[i].color.name;
           
           const colBrand = document.createElement("td");
           colBrand.textContent = moduleJSON[i].brand.name;
@@ -154,22 +173,17 @@
           const colCategory = document.createElement("td");
           colCategory.textContent = moduleJSON[i].category.name;
           
-          const colItemProduct = document.createElement("td");
-          const itemProductSpan = document.createElement("span");
-          itemProductSpan.classList.add("material-symbols-outlined");
-          itemProductSpan.textContent = "add";
-          const itemProductA = document.createElement("a");
-          itemProductA.setAttribute("href", `${moduleEdit}?id=${moduleJSON[i].id}&action=update`);
-          itemProductA.appendChild(itemProductSpan);
-          colItemProduct.appendChild(itemProductA);
 
           const colUpdate = document.createElement("td");
           const updateSpan = document.createElement("span");
           updateSpan.classList.add("material-symbols-outlined");
           updateSpan.textContent = "update";
+
+
           const updateA = document.createElement("a");
           updateA.setAttribute("href", `${moduleEdit}?id=${moduleJSON[i].id}&action=update`);
           updateA.appendChild(updateSpan);
+
           colUpdate.appendChild(updateA);
 
           const colDelete = document.createElement("td");
@@ -186,14 +200,18 @@
           colDelete.appendChild(deleteSpan);
 
           row.appendChild(colId);
+
           row.appendChild(colIcon);
           row.appendChild(colImage);
           row.appendChild(colName);
+          row.appendChild(colSize);
+          row.appendChild(colSalePrice);
+          row.appendChild(colBuyPrice);
+          row.appendChild(colGenre);
+          row.appendChild(colColor);
           row.appendChild(colBrand);
           row.appendChild(colCategory);
           
-          row.appendChild(colGenre);
-          row.appendChild(colItemProduct);
           row.appendChild(colUpdate);
           
           row.appendChild(colDelete);

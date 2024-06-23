@@ -1,4 +1,4 @@
-package com.jpaul.poscjestilos.controller;
+package com.jpaul.poscjestilos.model.controller;
 
 
 import com.jpaul.poscjestilos.model.ItemProduct;

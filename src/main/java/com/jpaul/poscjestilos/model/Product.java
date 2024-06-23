@@ -24,7 +24,7 @@ public class Product {
 
 
     @Column(nullable = false)
-    private char genre;
+    private String genre;
 
     @ManyToOne
     @JoinColumn(name = "brand_id")
