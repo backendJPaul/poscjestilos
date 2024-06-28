@@ -71,11 +71,12 @@
             try {
                 const response = await fetch(`${server}api/${endpoint}/${idUrlParams}`);
                 moduleJSON = await response.json();
-
-                document.getElementById("nameField").value = moduleJSON.name;
-                document.getElementById("genreField").value = moduleJSON.genre;
-                document.getElementById("categorySelect").options[moduleJSON.category.id].selected = true;
-                document.getElementById("brandSelect").options[moduleJSON.brand.id].selected = true;
+                if(moduleJSON.category.id){
+                    document.getElementById("nameField").value = moduleJSON.name;
+                    document.getElementById("genreField").value = moduleJSON.genre;
+                    document.getElementById("categorySelect").options[moduleJSON.category.id].selected = true;
+                    document.getElementById("brandSelect").options[moduleJSON.brand.id].selected = true;
+                }
             
             }
             catch (error) {

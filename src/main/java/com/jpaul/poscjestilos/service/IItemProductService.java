@@ -10,5 +10,6 @@ public interface IItemProductService {
     ItemProduct save(ItemProduct _itemProduct);
     ItemProduct update(ItemProduct _itemProduct);
     void delete(Integer _id);
+    List<ItemProduct> findByProductId(Integer id);
 
 }

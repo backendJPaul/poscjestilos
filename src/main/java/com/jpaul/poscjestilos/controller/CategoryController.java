@@ -1,4 +1,4 @@
-package com.jpaul.poscjestilos.model.controller;
+package com.jpaul.poscjestilos.controller;
 
 
 import com.jpaul.poscjestilos.model.Category;

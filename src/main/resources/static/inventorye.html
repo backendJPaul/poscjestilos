@@ -12,7 +12,7 @@
     <fieldset>
         <legend id="titleLegend"></legend>
         <input type="text" id="beginningAvailableQuantityField" placeholder="cantidad" />
-        <input type="text" id="productIdField" placeholder="product_id" disabled="disabled" />
+        <input type="text" id="itemProductIdField" placeholder="product_id" disabled="disabled" />
         <input type="submit" id="submitButton" />
     </fieldset>
     <script>
@@ -57,7 +57,7 @@
                 moduleJSON = await response.json();
 
                 document.getElementById("beginningAvailableQuantityField").value = moduleJSON.beginningAvailableQuantity;
-                document.getElementById("productIdField").value = moduleJSON.product.id;
+                document.getElementById("itemProductIdField").value = moduleJSON.itemProduct.id;
             }
             catch (error) {
                 console.log(error);
@@ -74,8 +74,8 @@
                 data = {
                     "id": `${idUrlParams}`,
                     "beginningAvailableQuantity": `${document.getElementById("beginningAvailableQuantityField").value}`,
-                    "product": { 
-                        "id" : `${document.getElementById("productIdField").value}`
+                    "itemProduct": { 
+                        "id" : `${document.getElementById("itemProductIdField").value}`
                     }
                 }
                 if (action == "save") {

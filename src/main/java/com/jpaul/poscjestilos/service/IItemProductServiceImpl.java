@@ -16,7 +16,7 @@ import java.util.Optional;
 public class IItemProductServiceImpl implements IItemProductService {
 
     private IItemProductRepository iItemProductRepository;
-    private IInventoryRepository iInventoryRepository;
+    private IInventoryService iInventoryService;
     @Override
     public List<ItemProduct> findAll() {
         return iItemProductRepository.findAll();
@@ -41,7 +41,8 @@ public class IItemProductServiceImpl implements IItemProductService {
         inventory.setItemProduct(itemProduct);
         inventory.setBeginningAvailableQuantity(0);
 
-        iInventoryRepository.save(inventory);
+        iInventoryService.save(inventory);
+
         return itemProduct;
     }
 
@@ -71,5 +72,11 @@ public class IItemProductServiceImpl implements IItemProductService {
         else{
             throw new ResourceNotFoundException(ResourceNotFoundException.RESOURCE_NOT_FOUND_BY_ID);
         }
+    }
+
+    @Override
+    public List<ItemProduct> findByProductId(Integer id) {
+        List<ItemProduct> itemProducts = iItemProductRepository.findByProductId(id);
+        return itemProducts;
     }
 }

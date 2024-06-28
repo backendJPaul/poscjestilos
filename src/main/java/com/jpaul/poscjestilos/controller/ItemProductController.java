@@ -1,4 +1,4 @@
-package com.jpaul.poscjestilos.model.controller;
+package com.jpaul.poscjestilos.controller;
 
 
 import com.jpaul.poscjestilos.model.ItemProduct;
@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
+
+@CrossOrigin(origins = "http://127.0.0.1:5500/")
 @RestController
 @AllArgsConstructor
 @RequestMapping("api/itemproduct")
@@ -44,5 +46,9 @@ public class ItemProductController{
     public HttpStatus delete(@PathVariable("id") Integer _id) {
         iItemProductService.delete(_id);
         return HttpStatus.OK;
+    }
+    @GetMapping("/product/{id}")
+    public ResponseEntity<List<ItemProduct>> findByProductId(@PathVariable("id") Integer _id){
+         return new ResponseEntity<>(iItemProductService.findByProductId(_id), HttpStatus.OK);
     }
 }

@@ -43,6 +43,7 @@
     const endpoint = "product";
     const module = `${endpoint}.html`;
     const moduleEdit = `${endpoint}e.html`;
+    const moduleAdd = `item${endpoint}.html`; 
 
     let moduleJSON = null;
 
@@ -159,7 +160,7 @@
           itemProductSpan.classList.add("material-symbols-outlined");
           itemProductSpan.textContent = "add";
           const itemProductA = document.createElement("a");
-          itemProductA.setAttribute("href", `${moduleEdit}?id=${moduleJSON[i].id}&action=update`);
+          itemProductA.setAttribute("href", `${moduleAdd}?id=${moduleJSON[i].id}&action=update`);
           itemProductA.appendChild(itemProductSpan);
           colItemProduct.appendChild(itemProductA);
 
@@ -203,6 +204,7 @@
       }
 
       async function deleteItem(idDeleteSpan) {
+        console.log(idDeleteSpan);
         try {
           const response = await fetch(`${server}api/${endpoint}/${idDeleteSpan}`, {
             method: 'DELETE'
@@ -212,7 +214,7 @@
         catch (error) {
           console.log(error);
         }
-        document.location.href = module;
+        //document.location.href = module;
       }
 
 

@@ -16,31 +16,24 @@
         <input type="text" id="sizeField" placeholder="talla" />
         <input type="text" id="salePriceField" placeholder="precio de venta" />
         <input type="text" id="buyPriceField" placeholder="precio de compra" />
-        <input type="text" id="genreField" placeholder="G|F|M|FK|MK|FB|MB" />
         
         <select id="colorSelect"></select>
-        <select id="categorySelect"></select>
-        <select id="brandSelect"></select>
         
         <input type="submit" id="submitButton" />
     </fieldset>
     <script>
 
-        document.addEventListener("DOMContentLoaded", function (){
-            categorySelect.addEventListener("change",function (){
-                console.log(categorySelect.selectedIndex);
-            });
-        });
 
         /*catching url*/
         const urlSearchParams = new URLSearchParams(window.location.search);
         const filter = Boolean(urlSearchParams.get("filter"));
         const action = urlSearchParams.get("action");
-        const idUrlParams = urlSearchParams.get("id");
+        const idRoot = urlSearchParams.get("idRoot");
+        const id = urlSearchParams.get("id");
 
         /* const */
         const server = "http://localhost:8080/";
-        const endpoint = "product";
+        const endpoint = "itemproduct";
         const module = `${endpoint}.html`;
         const moduleEdit = `${endpoint}e.html`;
 
@@ -53,8 +46,6 @@
             
             document.addEventListener("DOMContentLoaded", function() {
                 colorLoadJSON();
-                brandLoadJSON();
-                categoryLoadJSON();
        
             });
             switch (action) {
@@ -74,19 +65,21 @@
         /*load assets*/
 
         async function loadModuleByIdJSON() {
+            console.log("great great");
             try {
-                const response = await fetch(`${server}api/${endpoint}/${idUrlParams}`);
+                const response = await fetch(`${server}api/${endpoint}/product/${idRoot}`);
                 moduleJSON = await response.json();
-
-                document.getElementById("nameField").value = moduleJSON.name;
-                document.getElementById("sizeField").value = moduleJSON.size;
-                document.getElementById("salePriceField").value = moduleJSON.salePrice;
-                document.getElementById("buyPriceField").value = moduleJSON.buyPrice;
-                document.getElementById("genreField").value = moduleJSON.genre;
-                
-                document.getElementById("colorSelect").options[moduleJSON.color.id].selected = true;
-                document.getElementById("categorySelect").options[moduleJSON.category.id].selected = true;
-                document.getElementById("brandSelect").options[moduleJSON.brand.id].selected = true;
+                for(let i in moduleJSON){
+                    if(moduleJSON[i].id == id){
+                        document.getElementById("nameField").value = moduleJSON[i].name;    
+                        document.getElementById("sizeField").value = moduleJSON[i].size;
+                        document.getElementById("salePriceField").value = moduleJSON[i].salePrice;  
+                        document.getElementById("buyPriceField").value = moduleJSON[i].buyPrice;
+                        document.getElementById("colorSelect").options[moduleJSON[i].color.id].selected = true;
+                    }
+                    console.log(moduleJSON[i].id);
+                }
+                console.log(moduleJSON);
             
             }
             catch (error) {
@@ -117,55 +110,6 @@
                 colorSelect.appendChild(option);
             } 
         }
-        let brandJSON;
-        async function brandLoadJSON() {
-            try {
-                const response = await fetch(`${server}api/brand`);
-                const data = await response.json();
-                brandJSON = data;
-                document.addEventListener("DOMContentLoaded", brandContentLoaded(data));
-            }
-            catch (error) {
-                console.log(error);
-            }
-        }
-        function brandContentLoaded(){
-            let option = document.createElement("option");
-            option.text = "Seleccione una marca";
-            brandSelect.appendChild(option);
-
-            for (let i in brandJSON) {
-                option = null;
-                option = document.createElement("option");
-                option.text = brandJSON[i].name;
-                brandSelect.appendChild(option);
-            } 
-        }
-        let categoryJSON;
-        async function categoryLoadJSON() {
-            try {
-                const response = await fetch(`${server}api/category`);
-                const data = await response.json();
-                categoryJSON = data;
-                document.addEventListener("DOMContentLoaded", categoryContentLoaded(data));
-            }
-            catch (error) {
-                console.log(error);
-            }
-        }
-        function categoryContentLoaded(){
-            let option = document.createElement("option");
-            option.text = "Seleccione un categoria";
-            categorySelect.appendChild(option);
-
-            for (let i in categoryJSON) {
-                option = null;
-                option = document.createElement("option");
-                option.text = categoryJSON[i].name;
-                categorySelect.appendChild(option);
-            } 
-        }
-        
     
         
 
@@ -177,22 +121,17 @@
             else {
 
                 data = {
-                    "id": `${idUrlParams}`,
-                    "name": `${document.getElementById("categorySelect").value.toUpperCase() + "COD0"  +  document.getElementById("sizeField").value.toUpperCase() + document.getElementById("colorSelect").value.toUpperCase()+ Date.now().toString(16).toUpperCase()}`,
+                    "id": `${id}`,
+                    "name": `${document.getElementById("sizeField").value.toUpperCase() + document.getElementById("colorSelect").value.toUpperCase()+ Date.now().toString(16).toUpperCase()}`,
                     "size": `${document.getElementById("sizeField").value}`,
                     "salePrice": `${document.getElementById("salePriceField").value}`,
                     "buyPrice": `${document.getElementById("buyPriceField").value}`,
-                    "genre": `${document.getElementById("genreField").value}`,
-                    
                     
                     "color": {
                         "id" : `${document.getElementById("colorSelect").selectedIndex}`
                     },
-                    "brand": {
-                        "id" : `${document.getElementById("brandSelect").selectedIndex}`
-                    },
-                    "category" : { 
-                        "id" : `${document.getElementById("categorySelect").selectedIndex}`
+                    "product" : { 
+                        "id" : `${id}`
                     }
                 }
                 if (action == "save") {
@@ -229,7 +168,7 @@
                         console.log(error);
                     }
                 }
-               window.location.href = module;
+               window.location.href = `${module}?id=${id}`;
             }
         }
     </script>
