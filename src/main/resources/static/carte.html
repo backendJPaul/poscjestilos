@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>module - edit category</title>
+</head>
+
+<body>
+    <a href="#" onclick="history.back()">Regresar</a>
+    <fieldset>
+        <legend id="titleLegend"></legend>
+        <input type="text" id="discountField" placeholder="descuento" />
+        <input type="text" id="quantityField" placeholder="cantidad" />
+        <select id="productSelect"></select>
+        <input type="submit" id="submitButton" />
+    </fieldset>
+    <script>
+        /*catching url*/
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const filter = Boolean(urlSearchParams.get("filter"));
+        const action = urlSearchParams.get("action");
+        const idUrlParams = urlSearchParams.get("id");
+
+        /* const */
+        const server = "http://localhost:8080/";
+        const endpoint = "cart";
+        const module = `${endpoint}.html`;
+        const moduleEdit = `${endpoint}e.html`;
+
+        let moduleJSON = null;
+
+        /* init */
+        init();
+        function init() {
+            document.getElementById("submitButton").addEventListener("click", submitButtonClick);
+            productLoadJSON();
+            switch (action) {
+                case "null":
+                    window.location.href = module;
+                    break;
+                case "save":
+                    break;
+                case "update":
+                    document.addEventListener("DOMContentLoaded", function () {
+                        loadModuleByIdJSON();
+                    });
+            }
+
+
+        }
+        /*load assets*/
+        let productJSON;
+        async function productLoadJSON() {
+            try {
+                const response = await fetch(`${server}api/product`);
+                const data = await response.json();
+                productJSON = data;
+                document.addEventListener("DOMContentLoaded", productContentLoaded(data));
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        function productContentLoaded(){
+            let option = document.createElement("option");
+            option.text = "Seleccione un producto";
+            productSelect.appendChild(option);
+
+            for (let i in productJSON) {
+                option = null;
+                option = document.createElement("option");
+                option.text = productJSON[i].name;
+                productSelect.appendChild(option);
+            } 
+        }
+
+        
+
+        
+
+
+        async function loadModuleByIdJSON() {
+            try {
+                const response = await fetch(`${server}api/${endpoint}/${idUrlParams}`);
+                moduleJSON = await response.json();
+
+                console.log(moduleJSON);
+                document.getElementById("discountField").value = moduleJSON.discount;
+                document.getElementById("quantityField").value = moduleJSON.quantity;
+                console.log(moduleJSON.product.id);
+                document.getElementById("productSelect").options[moduleJSON.product.id].selected = true;
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+
+        /*send button*/
+        async function submitButtonClick() {
+            if (document.getElementById("quantityField").value == "") {
+                window.alert("Ingrese todos los campos");
+            }
+            else {
+            console.log(productJSON[0].salePrice);
+            console.log(document.getElementById("productSelect").selectedIndex);
+            
+                //console.log(productJSON[document.getElementById("productSelect").selectedIndex].salePrice);
+                data = {
+
+                    "id": `${idUrlParams}`,
+                    "discount": `${document.getElementById("discountField").value}`,
+                    "quantity": `${document.getElementById("quantityField").value}`,
+                    "cart" : {
+                        "id" : 1
+                    },
+                    "total": `${(productJSON[document.getElementById("productSelect").selectedIndex - 1].salePrice * document.getElementById("quantityField").value) - (document.getElementById("discountField").value)}`,
+                    "product": { 
+                        "id" : `${document.getElementById("productSelect").selectedIndex}`
+                    }
+
+                }
+                if (action == "save") {
+                    delete data.id;
+                    try {
+                        const response = await fetch(`${server}api/${endpoint}`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        }
+                        );
+                        const _data = await response.json();
+                    }
+                    catch (error) {
+                        console.log(error);
+                    }
+                }
+                else if (action == "update") {
+                    try {
+                        const response = await fetch(`${server}api/${endpoint}/${idUrlParams}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify(data)
+                        }
+                        );
+                        const _data = await response.json();
+
+                    }
+                    catch (error) {
+                        console.log(error);
+                    }
+                }
+                window.location.href = module;
+            }
+        }
+    </script>
+</body>
+
+</html>

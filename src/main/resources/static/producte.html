@@ -146,7 +146,7 @@
 
                 data = {
                     "id": `${idUrlParams}`,
-                    "name": `${document.getElementById("categorySelect").value.toUpperCase() + document.getElementById("genreField").value.toUpperCase() + document.getElementById("brandSelect").value.toUpperCase()}`,
+                    "name": `${document.getElementById("categorySelect").value.toUpperCase() + document.getElementById("genreField").value.toUpperCase() + document.getElementById("brandSelect").value.toUpperCase() + Date.now().toString(16).toUpperCase()}}`,
                     "genre": `${document.getElementById("genreField").value}`,
                     "brand": {
                         "id" : `${document.getElementById("brandSelect").selectedIndex}`
