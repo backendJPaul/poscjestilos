@@ -9,14 +9,24 @@
 
 <body>
     <a href="#" onclick="history.back()">Regresar</a>
+   
     <fieldset>
         <legend id="titleLegend"></legend>
-        <input type="text" id="discountField" placeholder="descuento" />
-        <input type="text" id="quantityField" placeholder="cantidad" />
-        <select id="productSelect"></select>
+        <input type="text" id="nameField" placeholder="CATEGORY|SIZE|COLOR" size="31" disabled="disabled" />
+        <input type="text" id="genreField" placeholder="G|F|M|FK|MK|FB|MB" />
+        <select id="categorySelect"></select>
+        <select id="brandSelect"></select>
+        
         <input type="submit" id="submitButton" />
     </fieldset>
     <script>
+
+        document.addEventListener("DOMContentLoaded", function (){
+            categorySelect.addEventListener("change",function (){
+                console.log(categorySelect.selectedIndex);
+            });
+        });
+
         /*catching url*/
         const urlSearchParams = new URLSearchParams(window.location.search);
         const filter = Boolean(urlSearchParams.get("filter"));
@@ -25,7 +35,7 @@
 
         /* const */
         const server = "http://localhost:8080/";
-        const endpoint = "cart";
+        const endpoint = "carte";
         const module = `${endpoint}.html`;
         const moduleEdit = `${endpoint}e.html`;
 
@@ -35,7 +45,12 @@
         init();
         function init() {
             document.getElementById("submitButton").addEventListener("click", submitButtonClick);
-            productLoadJSON();
+            
+            document.addEventListener("DOMContentLoaded", function() {
+                brandLoadJSON();
+                categoryLoadJSON();
+       
+            });
             switch (action) {
                 case "null":
                     window.location.href = module;
@@ -51,75 +66,94 @@
 
         }
         /*load assets*/
-        let productJSON;
-        async function productLoadJSON() {
-            try {
-                const response = await fetch(`${server}api/product`);
-                const data = await response.json();
-                productJSON = data;
-                document.addEventListener("DOMContentLoaded", productContentLoaded(data));
-            }
-            catch (error) {
-                console.log(error);
-            }
-        }
-        function productContentLoaded(){
-            let option = document.createElement("option");
-            option.text = "Seleccione un producto";
-            productSelect.appendChild(option);
-
-            for (let i in productJSON) {
-                option = null;
-                option = document.createElement("option");
-                option.text = productJSON[i].name;
-                productSelect.appendChild(option);
-            } 
-        }
-
-        
-
-        
-
 
         async function loadModuleByIdJSON() {
             try {
                 const response = await fetch(`${server}api/${endpoint}/${idUrlParams}`);
                 moduleJSON = await response.json();
-
-                console.log(moduleJSON);
-                document.getElementById("discountField").value = moduleJSON.discount;
-                document.getElementById("quantityField").value = moduleJSON.quantity;
-                console.log(moduleJSON.product.id);
-                document.getElementById("productSelect").options[moduleJSON.product.id].selected = true;
+                if(moduleJSON.category.id){
+                    document.getElementById("nameField").value = moduleJSON.name;
+                    document.getElementById("genreField").value = moduleJSON.genre;
+                    document.getElementById("categorySelect").options[moduleJSON.category.id].selected = true;
+                    document.getElementById("brandSelect").options[moduleJSON.brand.id].selected = true;
+                }
+            
             }
             catch (error) {
                 console.log(error);
             }
         }
+        let brandJSON;
+        async function brandLoadJSON() {
+            try {
+                const response = await fetch(`${server}api/brand`);
+                const data = await response.json();
+                brandJSON = data;
+                document.addEventListener("DOMContentLoaded", brandContentLoaded(data));
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        function brandContentLoaded(){
+            let option = document.createElement("option");
+            option.text = "Seleccione una marca";
+            brandSelect.appendChild(option);
+
+            for (let i in brandJSON) {
+                option = null;
+                option = document.createElement("option");
+                option.value = brandJSON[i].name;
+                option.text = brandJSON[i].name;
+                brandSelect.appendChild(option);
+            } 
+        }
+        let categoryJSON;
+        async function categoryLoadJSON() {
+            try {
+                const response = await fetch(`${server}api/category`);
+                const data = await response.json();
+                categoryJSON = data;
+                document.addEventListener("DOMContentLoaded", categoryContentLoaded(data));
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        function categoryContentLoaded(){
+            let option = document.createElement("option");
+            option.text = "Seleccione un categoria";
+            categorySelect.appendChild(option);
+
+            for (let i in categoryJSON) {
+                option = null;
+                option = document.createElement("option");
+                option.value = categoryJSON[i].name;
+                option.text = categoryJSON[i].name;
+                categorySelect.appendChild(option);
+            } 
+        }
+        
+    
+        
 
         /*send button*/
         async function submitButtonClick() {
-            if (document.getElementById("quantityField").value == "") {
+            if (document.getElementById("genreField").value == "") {
                 window.alert("Ingrese todos los campos");
             }
             else {
-            console.log(productJSON[0].salePrice);
-            console.log(document.getElementById("productSelect").selectedIndex);
-            
-                //console.log(productJSON[document.getElementById("productSelect").selectedIndex].salePrice);
+
                 data = {
-
                     "id": `${idUrlParams}`,
-                    "discount": `${document.getElementById("discountField").value}`,
-                    "quantity": `${document.getElementById("quantityField").value}`,
-                    "cart" : {
-                        "id" : 1
+                    "name": `${document.getElementById("categorySelect").value.toUpperCase() + document.getElementById("genreField").value.toUpperCase() + document.getElementById("brandSelect").value.toUpperCase() + Date.now().toString(16).toUpperCase()}}`,
+                    "genre": `${document.getElementById("genreField").value}`,
+                    "brand": {
+                        "id" : `${document.getElementById("brandSelect").selectedIndex}`
                     },
-                    "total": `${(productJSON[document.getElementById("productSelect").selectedIndex - 1].salePrice * document.getElementById("quantityField").value) - (document.getElementById("discountField").value)}`,
-                    "product": { 
-                        "id" : `${document.getElementById("productSelect").selectedIndex}`
+                    "category" : { 
+                        "id" : `${document.getElementById("categorySelect").selectedIndex}`
                     }
-
                 }
                 if (action == "save") {
                     delete data.id;
@@ -155,7 +189,7 @@
                         console.log(error);
                     }
                 }
-                window.location.href = module;
+               window.location.href = module;
             }
         }
     </script>

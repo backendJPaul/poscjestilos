@@ -8,7 +8,7 @@ import java.math.BigDecimal;
 @Entity
 @Data
 @Table(name = "cart_item")
-public class CartItem {
+public class ItemCart {
 
     private static final long serialVersion = 1L;
 

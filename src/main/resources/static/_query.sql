@@ -64,6 +64,7 @@ insert into color(name)values("intermedio");
 insert into color(name)values("jade");
 insert into color(name)values("lila");
 insert into color(name)values("marron");
+insert into color(name)values("melanch");
 insert into color(name)values("morado");
 insert into color(name)values("negro");
 insert into color(name)values("palo_rosa");

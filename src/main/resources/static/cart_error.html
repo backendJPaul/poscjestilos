@@ -6,7 +6,7 @@
   <meta name="viewport"
     content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>module - cart</title>
+  <title>module - category</title>
 
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
@@ -43,7 +43,6 @@
     const endpoint = "cart";
     const module = `${endpoint}.html`;
     const moduleEdit = `${endpoint}e.html`;
-    const moduleAdd = `item${endpoint}.html`; 
 
     let moduleJSON = null;
 
@@ -60,8 +59,8 @@
       try {
         const response = await fetch(`${server}api/${endpoint}`);
         moduleJSON = await response.json();
-        console.log(moduleJSON);
         document.addEventListener("DOMContentLoaded", moduleDOMContentLoaded(moduleJSON));
+        console.log(moduleJSON);
       }
       catch (error) {
         console.log(error);
@@ -78,99 +77,70 @@
     function fillDataTable(moduleJSON) {
       document.getElementById("dataTable").innerHTML = "";
 
+
           const rowHeader = document.createElement("tr");
-          
           
           const colIdHeader = document.createElement("td");
           colIdHeader.textContent = "id";
           const colIconHeader = document.createElement("td");
-          colIconHeader.textContent = "icono";
-          const colPhotoHeader = document.createElement("td");
-          colPhotoHeader.textContent = "imagen"; 
-          const colNameHeader = document.createElement("td");
-          colNameHeader.textContent = "nombre";
-          const colBrandHeader = document.createElement("td");
-          colBrandHeader.textContent = "marca";
-          
-          const colCategoryHeader = document.createElement("td");
-          colCategoryHeader.textContent = "categoría";
-          
-          const colGenreHeader = document.createElement("td");
-          colGenreHeader.textContent = "genero";
-          
-          const colItemProductHeader = document.createElement("td");
-          colItemProductHeader.textContent = "agregar variante";
-
+          colIconHeader.textContent = "icon"; 
+          const colUserHeader = document.createElement("td");
+          colUserHeader.textContent = "usuario";
+          const colDiscountHeader = document.createElement("td");
+          colDiscountHeader.textContent = "descuento";
+          const colTotalHeader = document.createElement("td");
+          colTotalHeader.textContent = "total";
+          const colCartItemHeader = document.createElement("td");
+          colCartItemHeader.textContent = "agregar item product";
           const colUpdateHeader = document.createElement("td");
           colUpdateHeader.textContent = "actualizar";
-          
           const colDeleteHeader = document.createElement("td");
           colDeleteHeader.textContent = "eliminar";
           
           rowHeader.appendChild(colIdHeader);
           rowHeader.appendChild(colIconHeader);
-          rowHeader.appendChild(colPhotoHeader);
-          rowHeader.appendChild(colNameHeader);
-          rowHeader.appendChild(colBrandHeader);
-          rowHeader.appendChild(colCategoryHeader);
-          rowHeader.appendChild(colGenreHeader);
-          rowHeader.appendChild(colItemProductHeader);
+          rowHeader.appendChild(colUserHeader);
+          rowHeader.appendChild(colDiscountHeader);
+          rowHeader.appendChild(colTotalHeader);
           rowHeader.appendChild(colUpdateHeader);
           rowHeader.appendChild(colDeleteHeader);
 
           dataTable.appendChild(rowHeader);
+          
       for (let i in moduleJSON) {
 
-        if (JSON.stringify(moduleJSON[i].name).includes(document.getElementById("patternText").value) || document.getElementById("patternText").value == " ") {
-
-          
-          
+        if (JSON.stringify(moduleJSON[i].user.name).includes(document.getElementById("patternText").value) || document.getElementById("patternText").value == " ") {
           const row = document.createElement("tr");
 
           const colId = document.createElement("td");
           colId.textContent = moduleJSON[i].id;
 
-
           const colIcon = document.createElement("td");
           const iconSpan = document.createElement("span");
           iconSpan.classList.add("material-symbols-outlined");
-          iconSpan.textContent = "shoppingmode";
+          iconSpan.textContent = "shopping_cart";
           colIcon.appendChild(iconSpan);
-
-          const colImage = document.createElement("td");
-          const image = document.createElement("img");
-          image.src = "images/" + moduleJSON[i].name + ".png";
-          image.width = 50;
-          image.height = 50;
-          colImage.appendChild(image);
-          const colName = document.createElement("td");
-          colName.textContent = moduleJSON[i].name;
-
-          const colGenre = document.createElement("td");
-          colGenre.textContent = moduleJSON[i].genre;
           
-          const colBrand = document.createElement("td");
-          colBrand.textContent = moduleJSON[i].brand.name;
-
-          const colCategory = document.createElement("td");
-          colCategory.textContent = moduleJSON[i].category.name;
+          const colUser = document.createElement("td");
+          colUser.textContent = moduleJSON[i].user.name;
           
-          const colItemProduct = document.createElement("td");
-          const itemProductSpan = document.createElement("span");
-          itemProductSpan.classList.add("material-symbols-outlined");
-          itemProductSpan.textContent = "add";
-          const itemProductA = document.createElement("a");
-          itemProductA.setAttribute("href", `${moduleAdd}?id=${moduleJSON[i].id}&action=update`);
-          itemProductA.appendChild(itemProductSpan);
-          colItemProduct.appendChild(itemProductA);
+          const colDiscount = document.createElement("td");
+          colDiscount.textContent = moduleJSON[i].discount;
 
+          const colTotal = document.createElement("td");
+          colTotal.textContent = moduleJSON[i].total;
+          
+          
           const colUpdate = document.createElement("td");
           const updateSpan = document.createElement("span");
           updateSpan.classList.add("material-symbols-outlined");
           updateSpan.textContent = "update";
+
+
           const updateA = document.createElement("a");
           updateA.setAttribute("href", `${moduleEdit}?id=${moduleJSON[i].id}&action=update`);
           updateA.appendChild(updateSpan);
+
           colUpdate.appendChild(updateA);
 
           const colDelete = document.createElement("td");
@@ -188,15 +158,11 @@
 
           row.appendChild(colId);
           row.appendChild(colIcon);
-          row.appendChild(colImage);
-          row.appendChild(colName);
-          row.appendChild(colBrand);
-          row.appendChild(colCategory);
-          
-          row.appendChild(colGenre);
-          row.appendChild(colItemProduct);
+          row.appendChild(colUser);
+          row.appendChild(colDiscount);
+          row.appendChild(colTotal);
+
           row.appendChild(colUpdate);
-          
           row.appendChild(colDelete);
 
           dataTable.appendChild(row);
@@ -204,7 +170,6 @@
       }
 
       async function deleteItem(idDeleteSpan) {
-        console.log(idDeleteSpan);
         try {
           const response = await fetch(`${server}api/${endpoint}/${idDeleteSpan}`, {
             method: 'DELETE'
@@ -214,7 +179,7 @@
         catch (error) {
           console.log(error);
         }
-        //document.location.href = module;
+        document.location.href = module;
       }
 
 
