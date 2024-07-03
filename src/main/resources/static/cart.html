@@ -79,49 +79,37 @@
       document.getElementById("dataTable").innerHTML = "";
 
           const rowHeader = document.createElement("tr");
-          
-          
+
           const colIdHeader = document.createElement("td");
           colIdHeader.textContent = "id";
           const colIconHeader = document.createElement("td");
-          colIconHeader.textContent = "icono";
-          const colPhotoHeader = document.createElement("td");
-          colPhotoHeader.textContent = "imagen"; 
-          const colNameHeader = document.createElement("td");
-          colNameHeader.textContent = "nombre";
-          const colBrandHeader = document.createElement("td");
-          colBrandHeader.textContent = "marca";
-          
-          const colCategoryHeader = document.createElement("td");
-          colCategoryHeader.textContent = "categoría";
-          
-          const colGenreHeader = document.createElement("td");
-          colGenreHeader.textContent = "genero";
-          
-          const colItemProductHeader = document.createElement("td");
-          colItemProductHeader.textContent = "agregar variante";
-
+          colIconHeader.textContent = "icon"; 
+          const colUserHeader = document.createElement("td");
+          colUserHeader.textContent = "usuario";
+          const colDiscountHeader = document.createElement("td");
+          colDiscountHeader.textContent = "descuento";
+          const colTotalHeader = document.createElement("td");
+          colTotalHeader.textContent = "total";
+          const colItemCartHeader = document.createElement("td");
+          colItemCartHeader.textContent = "agregar item cart";
           const colUpdateHeader = document.createElement("td");
           colUpdateHeader.textContent = "actualizar";
-          
           const colDeleteHeader = document.createElement("td");
           colDeleteHeader.textContent = "eliminar";
           
           rowHeader.appendChild(colIdHeader);
           rowHeader.appendChild(colIconHeader);
-          rowHeader.appendChild(colPhotoHeader);
-          rowHeader.appendChild(colNameHeader);
-          rowHeader.appendChild(colBrandHeader);
-          rowHeader.appendChild(colCategoryHeader);
-          rowHeader.appendChild(colGenreHeader);
-          rowHeader.appendChild(colItemProductHeader);
+          rowHeader.appendChild(colUserHeader);
+          rowHeader.appendChild(colDiscountHeader);
+          rowHeader.appendChild(colTotalHeader);
+          rowHeader.appendChild(colItemCartHeader);
           rowHeader.appendChild(colUpdateHeader);
           rowHeader.appendChild(colDeleteHeader);
-
           dataTable.appendChild(rowHeader);
-      for (let i in moduleJSON) {
+      
+          for (let i in moduleJSON) {
 
-        if (JSON.stringify(moduleJSON[i].name).includes(document.getElementById("patternText").value) || document.getElementById("patternText").value == " ") {
+        if (JSON.stringify(moduleJSON[i].user.name).includes(document.getElementById("patternText").value) || document.getElementById("patternText").value == " ") {
 
           
           
@@ -137,32 +125,23 @@
           iconSpan.textContent = "shoppingmode";
           colIcon.appendChild(iconSpan);
 
-          const colImage = document.createElement("td");
-          const image = document.createElement("img");
-          image.src = "images/" + moduleJSON[i].name + ".png";
-          image.width = 50;
-          image.height = 50;
-          colImage.appendChild(image);
-          const colName = document.createElement("td");
-          colName.textContent = moduleJSON[i].name;
+          const colUser = document.createElement("td");
+          colUser.textContent = moduleJSON[i].user.name;
 
-          const colGenre = document.createElement("td");
-          colGenre.textContent = moduleJSON[i].genre;
-          
-          const colBrand = document.createElement("td");
-          colBrand.textContent = moduleJSON[i].brand.name;
+          const colDiscount = document.createElement("td");
+          colDiscount.textContent = moduleJSON[i].discount;
 
-          const colCategory = document.createElement("td");
-          colCategory.textContent = moduleJSON[i].category.name;
+          const colTotal = document.createElement("td");
+          colTotal.textContent = moduleJSON[i].total;
           
-          const colItemProduct = document.createElement("td");
-          const itemProductSpan = document.createElement("span");
-          itemProductSpan.classList.add("material-symbols-outlined");
-          itemProductSpan.textContent = "add";
-          const itemProductA = document.createElement("a");
-          itemProductA.setAttribute("href", `${moduleAdd}?id=${moduleJSON[i].id}&action=update`);
-          itemProductA.appendChild(itemProductSpan);
-          colItemProduct.appendChild(itemProductA);
+          const colItemCart = document.createElement("td");
+          const itemCartSpan = document.createElement("span");
+          itemCartSpan.classList.add("material-symbols-outlined");
+          itemCartSpan.textContent = "add";
+          const itemCartA = document.createElement("a");
+          itemCartA.setAttribute("href", `${moduleAdd}?id=${moduleJSON[i].id}&action=update`);
+          itemCartA.appendChild(itemCartSpan);
+          colItemCart.appendChild(itemCartA);
 
           const colUpdate = document.createElement("td");
           const updateSpan = document.createElement("span");
@@ -188,13 +167,10 @@
 
           row.appendChild(colId);
           row.appendChild(colIcon);
-          row.appendChild(colImage);
-          row.appendChild(colName);
-          row.appendChild(colBrand);
-          row.appendChild(colCategory);
-          
-          row.appendChild(colGenre);
-          row.appendChild(colItemProduct);
+          row.appendChild(colUser);
+          row.appendChild(colDiscount);
+          row.appendChild(colTotal);
+          row.appendChild(colItemCart);
           row.appendChild(colUpdate);
           
           row.appendChild(colDelete);

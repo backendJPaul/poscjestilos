@@ -12,9 +12,10 @@
    
     <fieldset>
         <legend id="titleLegend"></legend>
-        <input type="text" id="nameField" placeholder="CATEGORY|SIZE|COLOR" size="31" disabled="disabled" />
-        <input type="text" id="genreField" placeholder="G|F|M|FK|MK|FB|MB" />
+        <input type="text" id="nameField" placeholder="CATEGORY|MATERIAL|GENERO|MARCA" size="31" disabled="disabled" autocapitalize="characters" />
+        <input type="text" id="genreField" placeholder="SG|H|M|HK|MK|HB|MB" />
         <select id="categorySelect"></select>
+        <select id="materialSelect"></select>
         <select id="brandSelect"></select>
         
         <input type="submit" id="submitButton" />
@@ -23,7 +24,9 @@
 
         document.addEventListener("DOMContentLoaded", function (){
             categorySelect.addEventListener("change",function (){
-                console.log(categorySelect.selectedIndex);
+                console.log(categorySelect.value);
+                console.log(materialSelect.value);
+                console.log(brandSelect.value);
             });
         });
 
@@ -48,6 +51,7 @@
             
             document.addEventListener("DOMContentLoaded", function() {
                 brandLoadJSON();
+                materialLoadJSON();
                 categoryLoadJSON();
        
             });
@@ -75,6 +79,7 @@
                     document.getElementById("nameField").value = moduleJSON.name;
                     document.getElementById("genreField").value = moduleJSON.genre;
                     document.getElementById("categorySelect").options[moduleJSON.category.id].selected = true;
+                    document.getElementById("materialSelect").options[moduleJSON.material.id].selected = true;
                     document.getElementById("brandSelect").options[moduleJSON.brand.id].selected = true;
                 }
             
@@ -103,7 +108,7 @@
             for (let i in brandJSON) {
                 option = null;
                 option = document.createElement("option");
-                option.value = brandJSON[i].name;
+                option.value = brandJSON[i].id;
                 option.text = brandJSON[i].name;
                 brandSelect.appendChild(option);
             } 
@@ -128,12 +133,36 @@
             for (let i in categoryJSON) {
                 option = null;
                 option = document.createElement("option");
-                option.value = categoryJSON[i].name;
+                option.value = categoryJSON[i].id;
                 option.text = categoryJSON[i].name;
                 categorySelect.appendChild(option);
             } 
         }
-        
+        let materialJSON;
+        async function materialLoadJSON() {
+            try {
+                const response = await fetch(`${server}api/material`);
+                const data = await response.json();
+                materialJSON = data;
+                document.addEventListener("DOMContentLoaded", materialContentLoaded(data));
+            }
+            catch (error) {
+                console.log(error);
+            }
+        }
+        function materialContentLoaded(){
+            let option = document.createElement("option");
+            option.text = "Seleccione un material";
+            materialSelect.appendChild(option);
+
+            for (let i in materialJSON) {
+                option = null;
+                option = document.createElement("option");
+                option.value = materialJSON[i].id;
+                option.text = materialJSON[i].name;
+                materialSelect.appendChild(option);
+            } 
+        }
     
         
 
@@ -146,13 +175,16 @@
 
                 data = {
                     "id": `${idUrlParams}`,
-                    "name": `${document.getElementById("categorySelect").value.toUpperCase() + document.getElementById("genreField").value.toUpperCase() + document.getElementById("brandSelect").value.toUpperCase() + Date.now().toString(16).toUpperCase()}}`,
+                    "name": `${document.getElementById("categorySelect").value.toUpperCase() + document.getElementById("materialSelect").value.toUpperCase() + document.getElementById("genreField").value.toUpperCase() + document.getElementById("brandSelect").value.toUpperCase() + Date.now().toString(16).toUpperCase()}`,
                     "genre": `${document.getElementById("genreField").value}`,
                     "brand": {
-                        "id" : `${document.getElementById("brandSelect").selectedIndex}`
+                        "id" : `${document.getElementById("brandSelect").value}`
+                    },
+                    "material": {
+                        "id" : `${document.getElementById("materialSelect").value}`
                     },
                     "category" : { 
-                        "id" : `${document.getElementById("categorySelect").selectedIndex}`
+                        "id" : `${document.getElementById("categorySelect").value}`
                     }
                 }
                 if (action == "save") {

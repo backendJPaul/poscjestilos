@@ -57,5 +57,8 @@ public class InventoryServiceImpl implements IInventoryService{
         if(inventory.isPresent()){
             iInventoryRepository.delete(inventory.get());
         }
+        else{
+            throw new ResourceNotFoundException(ResourceNotFoundException.RESOURCE_NOT_FOUND_BY_ID);
+        }
     }
 }

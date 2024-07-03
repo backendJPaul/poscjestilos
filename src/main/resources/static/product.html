@@ -94,6 +94,10 @@
           const colCategoryHeader = document.createElement("td");
           colCategoryHeader.textContent = "categoría";
           
+          const colMaterialHeader = document.createElement("td");
+          colMaterialHeader.textContent = "material";
+  
+          
           const colGenreHeader = document.createElement("td");
           colGenreHeader.textContent = "genero";
           
@@ -112,6 +116,7 @@
           rowHeader.appendChild(colNameHeader);
           rowHeader.appendChild(colBrandHeader);
           rowHeader.appendChild(colCategoryHeader);
+          rowHeader.appendChild(colMaterialHeader);
           rowHeader.appendChild(colGenreHeader);
           rowHeader.appendChild(colItemProductHeader);
           rowHeader.appendChild(colUpdateHeader);
@@ -155,6 +160,9 @@
           const colCategory = document.createElement("td");
           colCategory.textContent = moduleJSON[i].category.name;
           
+          const colMaterial = document.createElement("td");
+          colMaterial.textContent = moduleJSON[i].material.name;
+          
           const colItemProduct = document.createElement("td");
           const itemProductSpan = document.createElement("span");
           itemProductSpan.classList.add("material-symbols-outlined");
@@ -192,7 +200,7 @@
           row.appendChild(colName);
           row.appendChild(colBrand);
           row.appendChild(colCategory);
-          
+          row.appendChild(colMaterial);
           row.appendChild(colGenre);
           row.appendChild(colItemProduct);
           row.appendChild(colUpdate);
