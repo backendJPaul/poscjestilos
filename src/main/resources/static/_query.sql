@@ -1,4 +1,3 @@
-
 insert into user(name)values("pticlavilca");
 insert into user(name)values("cleon");
 insert into user(name)values("jjafac");
@@ -92,6 +91,8 @@ insert into color(name)values("verde_botella");
 insert into color(name)values("verde_esmeralda");
 insert into color(name)values("verde_militar");
 
+
+select * from category;
 /*triggers*/
 
 delimiter //

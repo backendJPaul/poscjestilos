@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface IItemProductRepository extends JpaRepository<ItemProduct, Integer> {
-    List<ItemProduct> findByProductId(Integer id);
+    List<ItemProduct> findByProductId(int id);
 
 }

@@ -27,6 +27,7 @@ public class ProductController{
 
     @PostMapping
     public ResponseEntity<Product> save(@RequestBody Product _product) {
+        System.out.println(_product.toString());
         return new ResponseEntity<>(iProductService.save(_product), HttpStatus.OK);
     }
 

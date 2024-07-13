@@ -27,7 +27,7 @@ public class BrandServiceImpl implements IBrandService {
             return brandOptional.get();
         }
         else{
-            throw new ResourceNotFoundException("Resource not found exception " + _id);
+            throw new ResourceNotFoundException(ResourceNotFoundException.RESOURCE_NOT_FOUND_BY_ID);
         }
     }
 

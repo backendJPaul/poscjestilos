@@ -108,7 +108,7 @@
             for (let i in brandJSON) {
                 option = null;
                 option = document.createElement("option");
-                option.value = brandJSON[i].id;
+                option.value = brandJSON[i].name;
                 option.text = brandJSON[i].name;
                 brandSelect.appendChild(option);
             } 
@@ -133,7 +133,7 @@
             for (let i in categoryJSON) {
                 option = null;
                 option = document.createElement("option");
-                option.value = categoryJSON[i].id;
+                option.value = categoryJSON[i].name;
                 option.text = categoryJSON[i].name;
                 categorySelect.appendChild(option);
             } 
@@ -158,7 +158,7 @@
             for (let i in materialJSON) {
                 option = null;
                 option = document.createElement("option");
-                option.value = materialJSON[i].id;
+                option.value = materialJSON[i].name;
                 option.text = materialJSON[i].name;
                 materialSelect.appendChild(option);
             } 
@@ -168,6 +168,7 @@
 
         /*send button*/
         async function submitButtonClick() {
+            console.log(categoryJSON);
             if (document.getElementById("genreField").value == "") {
                 window.alert("Ingrese todos los campos");
             }
@@ -178,15 +179,18 @@
                     "name": `${document.getElementById("categorySelect").value.toUpperCase() + document.getElementById("materialSelect").value.toUpperCase() + document.getElementById("genreField").value.toUpperCase() + document.getElementById("brandSelect").value.toUpperCase() + Date.now().toString(16).toUpperCase()}`,
                     "genre": `${document.getElementById("genreField").value}`,
                     "brand": {
-                        "id" : `${document.getElementById("brandSelect").value}`
+                        "id" : `${document.getElementById("brandSelect").selectedIndex}`
                     },
                     "material": {
-                        "id" : `${document.getElementById("materialSelect").value}`
+                        "id" : `${document.getElementById("materialSelect").selectedIndex}`
                     },
                     "category" : { 
-                        "id" : `${document.getElementById("categorySelect").value}`
+                        "id" : `${document.getElementById("categorySelect").selectedIndex}`
                     }
                 }
+                console.log(data);
+
+                
                 if (action == "save") {
                     delete data.id;
                     try {
@@ -221,8 +225,12 @@
                         console.log(error);
                     }
                 }
-               window.location.href = module;
-            }
+                console.log(data);
+             
+                window.location.href = module;
+            
+                }
+               
         }
     </script>
 </body>
